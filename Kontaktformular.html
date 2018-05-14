@@ -1,33 +1,109 @@
 <!DOCTYPE html>
-<html>
-<head>
-   <link rel="stylesheet" href="Kontaktformular.css">
-   <title>Kontakt</title>
-   <meta charset="UTF-8" />
-</head>
 
-<body>
-<h1> Keller Infoseiten Bamberg </h1> </br>
-  <ul id="navigation">
-    <li><a href="ErsteSeite.html">Seite 1</a></li>
-    <li><a href="ZweiteSeite.html">Seite 2</a></li>
-    <li><a href="DritteSeite.html">Seite 3</a></li>
-    <li><a href="VierteSeite.html">Seite 4</a></li>
-    <li><a href="Kontaktformular.html">Kontakt</a></li>
-  </ul>
-</br>
-  <h3>Kontakt:</h3>
+ <html>
+	<head>
+		<meta charset="UTF-8" \>
+		<link rel="stylesheet" href="css/Startseite.css">
+		
+		<title>
+           Willkommen auf den Keller Infoseiten f&uumlr Bamberg!
+        </title>
+    </head>
 
-  <form action="contact.php" method="post">
-    <label for="name">Name: </label> <br/>
-    <input id="name" type="text" name="user" size="12" /> <br />
-    <label for="email">E-Mail Adresse: </label> <br/>
-    <input id="email" type="text" name="email" size="12" /> <br />
-    <label for="text">Text: </label> <br/>
-    <input id="text" type="text" name="text" size="50" /> <br />
-    <input type="submit" value="Absenden" /> <br/>
-  </form>
+    <body>
+		<!-- Kopfbereich -->
+		<header>
+		
+			<div>
+			
+			
+				
+			<h1> Keller Infoseiten Bamberg </h1>
+			</div>
+			
 
-</body>
+			
+		</header>
+		
+		
+		<!-- Navigationsbereich -->
+		<nav>
+		
+		  <ul id="navigation">
+				<li><a href="ErsteSeite.html">Seite 1</a></li>
+				<li><a href="ZweiteSeite.html">Seite 2</a></li>
+				<li><a href="DritteSeite.html">Seite 3</a></li>
+				<li id="sublist"><a href="VierteSeite.html">Seite 4</a>
+					<ul class="submenu">
+						<li><a href="ErsteUnterSeite.html">Unterseite 1</a></li>
+						<li><a href="ZweiteUnterSeite.html">Unterseite 2</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		
+		<!-- Seitenbereich -->
+		<aside>
+			  <figure id="logo">
+				
+				<img src="images/icons8-bier-100.png" alt="Bierkellerseiten-Logo" />			
+				<figcaption id="logoCap"> <a href="Startseite.html">  Kellerseite </a> </figcaption>
+			</figure>
 
-</html>
+			<!-- Externe Links -->
+			<p>
+			Nützliche Links:
+			<li><a href="http://www.google.de">google.de</a></li>
+			<li><a href="https://www.openstreetmap.de/">openstreetmap</a></li>
+			<li><a href="https://www.bayern3.de/verkehr">Verkehr</a></li>
+			</p>
+			
+		<section id="sec1">
+			<video id="vid" width="400px" controls>
+				<source src="video/Light_Beer_Pouring_From_Beer_Bottle_2.mp4" type="video/mp4">
+			</video>
+		</section>
+			
+		</aside>
+		
+		
+		<!-- Inhalt -->
+		<div id="content">
+			
+          <p> 
+             <h3>Kontakt:</h3>
+
+			<form action="contact.php" method="post">
+				<label for="name">Name: </label> <br/>
+				<input id="name" type="text" name="user" size="12" /> <br />
+				<label for="email">E-Mail Adresse: </label> <br/>
+				<input id="email" type="text" name="email" size="12" /> <br />
+				<label for="text">Text: </label> <br/>
+				<input id="text" type="text" name="text" size="50" /> <br />
+				<input type="submit" value="Absenden" /> <br/>
+			</form>
+
+          </p>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		<!-- Fußzeile -->
+		<footer>
+			<center>
+			Schreib uns über das
+			<a href="Kontaktformular.html">Kontaktfomular</a>
+			oder kontaktiere unser 
+			<a href="Impressum.html">Impressum</a>.
+			</center>
+			
+		</footer>
+
+       
+    </body>
+
+ </html>
