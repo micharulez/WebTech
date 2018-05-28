@@ -142,6 +142,8 @@ function addNewColor(sequence) {
 }
 
 function disableButtons() {
+    document.getElementById('newGameButton').disabled = true;
+    document.getElementById('proceedButton').disabled = true;
     var colorButtons = document.getElementsByClassName('colorbutton');
     for (i=0; i<colorButtons.length; i++) {
         colorButtons[i].removeEventListener("click", handleColorClick);
@@ -149,6 +151,8 @@ function disableButtons() {
 }
 
 function enableButtons() {
+    document.getElementById('newGameButton').disabled = false;
+    document.getElementById('proceedButton').disabled = false;
     var colorButtons = document.getElementsByClassName('colorbutton');
     for (i=0; i<colorButtons.length; i++) {
         colorButtons[i].addEventListener("click", handleColorClick);
