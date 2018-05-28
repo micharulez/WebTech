@@ -151,7 +151,7 @@ function disableButtons() {
 }
 
 function enableButtons() {
-    document.getElementById('newGameButton').disabled = false;
+   // document.getElementById('newGameButton').disabled = false;
     document.getElementById('proceedButton').disabled = false;
     var colorButtons = document.getElementsByClassName('colorbutton');
     for (i=0; i<colorButtons.length; i++) {
