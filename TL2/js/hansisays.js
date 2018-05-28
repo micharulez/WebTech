@@ -14,7 +14,7 @@ $(document).ready(function () {
     
     document.getElementById('newGameButton').addEventListener("click", startGameloop);
 
-    document.getElementById('proceedButton').addEventListener("click", startGameloop);
+    document.getElementById('proceedButton').disabled = true;
     
 
     
