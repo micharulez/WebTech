@@ -10,14 +10,13 @@ $(document).ready(function () {
     loadSounds();
 
     $('.colorbutton').addClass('pressed');
-    
-    
+
+
     document.getElementById('newGameButton').addEventListener("click", startGameloop);
 
     document.getElementById('proceedButton').disabled = true;
-    
 
-    
+
 });
 
 function loadSounds() {
@@ -45,35 +44,37 @@ function loadSounds() {
 function startGameloop() {
     var gameRunning = true;
     var mistakesWhereMade = false;
-    var sequence = ["green", "red", "yellow", "blue"];
-    // var sequence = ["red"];
-    // var sequence = [];
-    
+    //sequence = ["green", "red", "yellow", "blue"];
+    //var sequence = ["red"];
+    var sequence = [];
+
+    sequence = JSON.stringify(sequence);
+    addNewColor(sequence);
     // set initial score to 0
     score = 0;
-    
+
     // start main game loop
     while (gameRunning) {
-    
+
     // prepare sequence and play old sequence.
     disableButtons();
-    // sequence = addNewColor(sequence);
-    playSequence(sequence);
-    
+
+    //playSequence(sequence);
+
     setTimeout (function () {
         enableButtons();
     }, sequence.length * 500);
     gameRunning = false;
     }
-    
-    
-    
+
+
+
 }
 
 
 function playSequence(sequence) {
     var toneLength = 500;
-    
+
     for (i=0; i<sequence.length; i++) {
        switch (sequence[i]) {
            // $('#'+squence[i])
@@ -85,7 +86,7 @@ function playSequence(sequence) {
                         $(red).addClass('pressed');},toneLength);
                     redSound.play()},
                      i * toneLength);
-                    
+
                 break;
             case "green":
                 setTimeout(function () {
@@ -116,7 +117,7 @@ function playSequence(sequence) {
                 break;
        }
     }
-     
+
 }
 
 function handleColorClick(event, sequence, position) {
@@ -127,18 +128,22 @@ function handleColorClick(event, sequence, position) {
 function addNewColor(sequence) {
     var seq;
     $.ajax({
-      type: "GET",
-      url: "php/nextColor.php?sequence=[]",
+      type: 'GET',
+      url: 'php/nextColor.php',
+      data: {sequence: sequence},
+      dataType: 'JSON',
       success: function(data, status){
-         // alert("Data: " + data + " status: " + status);
-         seq = JSON.parse(data);
-         sequence = seq.sequence;
+         //alert("Data: " + data + " status: " + status);
+         seq = data;
+         playSequence(seq.sequence);
+         //alert("bla: " + seq.sequence);
+      },
+      error: function(jqXHR, textStatus){
+        alert('Request failed: ' + textStatus);
       }
     });
-    
     // sequence.push("green");
     // alert("value is: " +$('sequence'));
-    return seq;
 }
 
 function disableButtons() {
@@ -151,7 +156,7 @@ function disableButtons() {
 }
 
 function enableButtons() {
-   // document.getElementById('newGameButton').disabled = false;
+    //document.getElementById('newGameButton').disabled = false;
     document.getElementById('proceedButton').disabled = false;
     var colorButtons = document.getElementsByClassName('colorbutton');
     for (i=0; i<colorButtons.length; i++) {
@@ -163,3 +168,5 @@ function copyArray(input) {
     var copy = input.slice();
     return copy;
 }
+
+// TODO: Prüfen ob sequence korrekt, wenn nicht Fehlerton;; Score implementieren
