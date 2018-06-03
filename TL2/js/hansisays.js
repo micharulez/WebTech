@@ -3,7 +3,7 @@ var greenSound, redSound, blueSound, yellowSound, errorSound;
 var score = 0;
 var highscore = 0;
 
-var currentColor = "";
+var currentArray
 
 $(document).ready(function () {
 
@@ -15,7 +15,7 @@ $(document).ready(function () {
     document.getElementById('newGameButton').addEventListener("click", startGameloop);
 
     document.getElementById('proceedButton').disabled = true;
-
+    document.getElementById('proceedButton').addEventListener("click", startGameloop);
 
 });
 
@@ -44,7 +44,7 @@ function loadSounds() {
 function startGameloop() {
     var gameRunning = true;
     var mistakesWhereMade = false;
-    //sequence = ["green", "red", "yellow", "blue"];
+    //var sequence = ["green", "red", "yellow", "blue", "green", "red", "blue"];
     //var sequence = ["red"];
     var sequence = [];
 
@@ -59,22 +59,70 @@ function startGameloop() {
     // prepare sequence and play old sequence.
     disableButtons();
 
-    //playSequence(sequence);
-
-    setTimeout (function () {
+    setTimeout (function () {           //hier funktioniert was nicht: die Zeit passt nicht
         enableButtons();
-    }, sequence.length * 500);
+    }, sequence.length * 140 );
     gameRunning = false;
     }
+}
 
-
-
+function checkArray(sequence){
+      alert("check startet");
+  for (i=0; i<currentArray.length;i++) {
+        alert("das currentarray:    " + currentArray[i]);
+     switch (sequence[0]) {
+          case "red":
+               alert("case red:   " + sequence[i]);
+            if (currentArray[i] = "red"){
+             continue
+            } else {
+              alert("error")
+              errorSound.play();
+              document.getElementById('proceedButton').disabled = true;
+              document.getElementById('newGameButton').disabled = false;
+            }
+            break;
+          case "green":
+                alert("case green:   " + sequence[i]);
+            if (currentArray[i] = "green"){
+              continue
+            } else {
+              alert("error")
+            errorSound.play();
+            document.getElementById('proceedButton').disabled = true;
+            document.getElementById('newGameButton').disabled = false;
+          }
+            break;
+          case "yellow":
+                alert("case yellow:   " + sequence[i]);
+            if (currentArray[i] = "yellow"){
+              continue
+            } else {
+              alert("error")
+            errorSound.play();
+            document.getElementById('proceedButton').disabled = true;
+            document.getElementById('newGameButton').disabled = false;
+          }
+            break;
+          case "blue":
+                alert("case blue:   " + sequence[i]);
+            if (currentArray[i] = "blue"){
+              continue
+            } else {
+              alert("error")
+            errorSound.play();
+            document.getElementById('proceedButton').disabled = true;
+            document.getElementById('newGameButton').disabled = false;
+          }
+            break;
+     }
+  }
 }
 
 
 function playSequence(sequence) {
     var toneLength = 500;
-
+    currentArray = sequence;
     for (i=0; i<sequence.length; i++) {
        switch (sequence[i]) {
            // $('#'+squence[i])
@@ -83,7 +131,7 @@ function playSequence(sequence) {
                     $(red).removeClass('pressed');
                     // timeout for button back off
                     setTimeout(function () {
-                        $(red).addClass('pressed');},toneLength);
+                        $(red).addClass('pressed');},450);
                     redSound.play()},
                      i * toneLength);
 
@@ -93,7 +141,7 @@ function playSequence(sequence) {
                     $(green).removeClass('pressed');
                     // timeout for button back off
                     setTimeout(function () {
-                        $(green).addClass('pressed');},toneLength);
+                        $(green).addClass('pressed');},450);
                     greenSound.play()},
                      i * toneLength);
                 break;
@@ -102,7 +150,7 @@ function playSequence(sequence) {
                     $(yellow).removeClass('pressed');
                     // timeout for button back off
                     setTimeout(function () {
-                        $(yellow).addClass('pressed');},toneLength);
+                        $(yellow).addClass('pressed');},450);
                     yellowSound.play()},
                      i * toneLength);
                 break;
@@ -111,7 +159,7 @@ function playSequence(sequence) {
                     $(blue).removeClass('pressed');
                     // timeout for button back off
                     setTimeout(function () {
-                        $(blue).addClass('pressed');},toneLength);
+                        $(blue).addClass('pressed');},450);
                     blueSound.play()},
                      i * toneLength);
                 break;
@@ -123,6 +171,7 @@ function playSequence(sequence) {
 function handleColorClick(event, sequence, position) {
     var seq = [event.target.id];
     playSequence(seq);
+    checkArray(seq);
 }
 
 function addNewColor(sequence) {
@@ -133,17 +182,13 @@ function addNewColor(sequence) {
       data: {sequence: sequence},
       dataType: 'JSON',
       success: function(data, status){
-         //alert("Data: " + data + " status: " + status);
          seq = data;
-         playSequence(seq.sequence);
-         //alert("bla: " + seq.sequence);
+         playSequence(["red", "red"]);
       },
       error: function(jqXHR, textStatus){
         alert('Request failed: ' + textStatus);
       }
     });
-    // sequence.push("green");
-    // alert("value is: " +$('sequence'));
 }
 
 function disableButtons() {
@@ -156,8 +201,6 @@ function disableButtons() {
 }
 
 function enableButtons() {
-    //document.getElementById('newGameButton').disabled = false;
-    document.getElementById('proceedButton').disabled = false;
     var colorButtons = document.getElementsByClassName('colorbutton');
     for (i=0; i<colorButtons.length; i++) {
         colorButtons[i].addEventListener("click", handleColorClick);
@@ -170,3 +213,4 @@ function copyArray(input) {
 }
 
 // TODO: Prüfen ob sequence korrekt, wenn nicht Fehlerton;; Score implementieren
+
