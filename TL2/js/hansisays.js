@@ -1,23 +1,36 @@
 var greenSound, redSound, blueSound, yellowSound, errorSound;
 
-var score = 0;
+var score;
 var highscore = 0;
 
-var currentArray
+var currentArray = [];   //das aktuelle Array von nextColor.php
+var counter = 0;    //zählt Anzahl der eingaben pro Runde ab
 
 $(document).ready(function () {
 
     loadSounds();
 
-    $('.colorbutton').addClass('pressed');
+    $('.colorbutton').addClass('pressed');     //"Aus" Status
+    $('#newGameButton').click(function(){     //nach dem drücken der Starttaste: "An" Status
+    $('.colorbutton').removeClass('pressed');
+    });
 
+    document.getElementById('newGameButton').addEventListener("click", function(){    //Beim Klicken von "neues Spiel" wird der Score zurückgesetzt
+      score = 0;                                                                      //das Array geleert für ein neues Spiel und das Spiel neugestartet
+      updateScore();
+      currentArray = [];
+      startGameloop(currentArray);
+    });
 
-    document.getElementById('newGameButton').addEventListener("click", startGameloop);
-
-    document.getElementById('proceedButton').disabled = true;
-    document.getElementById('proceedButton').addEventListener("click", startGameloop);
+    document.getElementById('proceedButton').disabled = true;         // Abschalten des "Weiter" Buttons
+    document.getElementById('proceedButton').addEventListener("click", function(){
+      score++;                        //Beim "weiter" Klicken wird der Score erhöht und geupdatet sowie eine neue Spielrunde gestartet
+      updateScore();
+      startGameloop(currentArray);
+    });
 
 });
+
 
 function loadSounds() {
     greenSound = new Howl({
@@ -41,125 +54,155 @@ function loadSounds() {
     });
 }
 
-function startGameloop() {
-    var gameRunning = true;
-    var mistakesWhereMade = false;
-    //var sequence = ["green", "red", "yellow", "blue", "green", "red", "blue"];
-    //var sequence = ["red"];
-    var sequence = [];
+
+function startGameloop(seq) {      //mit dieser Funktion werden die Farben JSON codiert und die Buttons für die Dauer des Abspielens abgeschaltet
+    var sequence = seq;
 
     sequence = JSON.stringify(sequence);
     addNewColor(sequence);
-    // set initial score to 0
-    score = 0;
 
-    // start main game loop
-    while (gameRunning) {
-
-    // prepare sequence and play old sequence.
     disableButtons();
 
-    setTimeout (function () {           //hier funktioniert was nicht: die Zeit passt nicht
+    setTimeout (function () {
         enableButtons();
-    }, sequence.length * 140 );
-    gameRunning = false;
-    }
+    }, currentArray.length * 500 );
+
+}
+
+function updateScore(){
+  if(score > highscore){
+    highscore = score;
+  }
+  document.getElementById('score').innerHTML = score;
+  document.getElementById('highscore').innerHTML = highscore;
 }
 
 function checkArray(sequence){
-      alert("check startet");
-  for (i=0; i<currentArray.length;i++) {
-        alert("das currentarray:    " + currentArray[i]);
-     switch (sequence[0]) {
-          case "red":
-               alert("case red:   " + sequence[i]);
-            if (currentArray[i] = "red"){
-             continue
+
+  switch (sequence[0]) {
+    case "red":
+      if (currentArray[counter] == "red"){
+              counter++;
+              if (counter == currentArray.length) {
+                counter = 0;
+                disableButtons();
+                document.getElementById('proceedButton').disabled = false;
+              }
             } else {
-              alert("error")
-              errorSound.play();
-              document.getElementById('proceedButton').disabled = true;
+              disableButtons()
+              counter = 0;
+              setTimeout(function() {
+                 $('.colorbutton').addClass('pressed');
+               }, 600);
+              setTimeout(function() {
+                 errorSound.play();
+               }, 200);
               document.getElementById('newGameButton').disabled = false;
             }
             break;
           case "green":
-                alert("case green:   " + sequence[i]);
-            if (currentArray[i] = "green"){
-              continue
+            if (currentArray[counter] == "green"){
+                counter++;
+                if (counter == currentArray.length) {
+                  counter = 0;
+                  disableButtons();
+                  document.getElementById('proceedButton').disabled = false;
+                }
             } else {
-              alert("error")
-            errorSound.play();
-            document.getElementById('proceedButton').disabled = true;
+              disableButtons()
+                counter = 0;
+                setTimeout(function() {
+                   $('.colorbutton').addClass('pressed');
+                 }, 600);
+              setTimeout(function() {
+                 errorSound.play();
+               }, 200);
             document.getElementById('newGameButton').disabled = false;
           }
             break;
           case "yellow":
-                alert("case yellow:   " + sequence[i]);
-            if (currentArray[i] = "yellow"){
-              continue
+           if (currentArray[counter] == "yellow"){
+              counter++;
+              if (counter == currentArray.length) {
+                counter = 0;
+                disableButtons();
+                document.getElementById('proceedButton').disabled = false;
+                }
             } else {
-              alert("error")
-            errorSound.play();
-            document.getElementById('proceedButton').disabled = true;
+              disableButtons();
+              counter = 0;
+              setTimeout(function() {
+                 $('.colorbutton').addClass('pressed');
+               }, 600);
+            setTimeout(function() {
+               errorSound.play();
+             }, 200);
             document.getElementById('newGameButton').disabled = false;
           }
             break;
           case "blue":
-                alert("case blue:   " + sequence[i]);
-            if (currentArray[i] = "blue"){
-              continue
+            if (currentArray[counter] == "blue"){
+                counter++;
+                if (counter == currentArray.length) {
+                  counter = 0;
+                  disableButtons();
+                  document.getElementById('proceedButton').disabled = false;
+                }
             } else {
-              alert("error")
-            errorSound.play();
-            document.getElementById('proceedButton').disabled = true;
+              disableButtons();
+              counter = 0;
+              setTimeout(function() {
+                 $('.colorbutton').addClass('pressed');
+               }, 600);
+              setTimeout(function() {
+                 errorSound.play();
+               }, 200);
             document.getElementById('newGameButton').disabled = false;
           }
             break;
      }
-  }
 }
 
 
 function playSequence(sequence) {
     var toneLength = 500;
-    currentArray = sequence;
     for (i=0; i<sequence.length; i++) {
        switch (sequence[i]) {
            // $('#'+squence[i])
             case "red":
                 setTimeout(function () {
-                    $(red).removeClass('pressed');
+                    $(red).addClass('pressed');
                     // timeout for button back off
                     setTimeout(function () {
-                        $(red).addClass('pressed');},450);
+                        $(red).removeClass('pressed');},450);
                     redSound.play()},
                      i * toneLength);
 
                 break;
             case "green":
                 setTimeout(function () {
-                    $(green).removeClass('pressed');
+                    $(green).addClass('pressed');
                     // timeout for button back off
                     setTimeout(function () {
-                        $(green).addClass('pressed');},450);
+                        $(green).removeClass('pressed');},450);
                     greenSound.play()},
                      i * toneLength);
                 break;
             case "yellow":
                 setTimeout(function () {
-                    $(yellow).removeClass('pressed');
+                    $(yellow).addClass('pressed');
                     // timeout for button back off
                     setTimeout(function () {
-                        $(yellow).addClass('pressed');},450);
+                        $(yellow).removeClass('pressed');},450);
                     yellowSound.play()},
                      i * toneLength);
                 break;
             case "blue":
                 setTimeout(function () {
-                    $(blue).removeClass('pressed');
+                    $(blue).addClass('pressed');
                     // timeout for button back off
                     setTimeout(function () {
-                        $(blue).addClass('pressed');},450);
+                        $(blue).removeClass('pressed');},450);
                     blueSound.play()},
                      i * toneLength);
                 break;
@@ -183,7 +226,8 @@ function addNewColor(sequence) {
       dataType: 'JSON',
       success: function(data, status){
          seq = data;
-         playSequence(["red", "red"]);
+         playSequence(seq.sequence);
+         currentArray = seq.sequence;
       },
       error: function(jqXHR, textStatus){
         alert('Request failed: ' + textStatus);
@@ -211,6 +255,4 @@ function copyArray(input) {
     var copy = input.slice();
     return copy;
 }
-
-// TODO: Prüfen ob sequence korrekt, wenn nicht Fehlerton;; Score implementieren
 
